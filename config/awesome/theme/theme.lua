@@ -242,8 +242,8 @@ theme.mstab_bar_ontop = true
 
 --- Notifications
 theme.notification_spacing = dpi(4)
-theme.notification_bg = theme.xbackground
-theme.notification_bg_alt = theme.lighter_xbackground
+theme.notification_bg = theme.lighter_xbackground
+theme.notification_bg_alt = theme.xbackground
 
 --- Notif center
 theme.notif_center_notifs_bg = theme.one_bg2

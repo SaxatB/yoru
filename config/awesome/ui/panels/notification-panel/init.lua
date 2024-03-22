@@ -28,7 +28,7 @@ return function(s)
 			{
 				{
 					layout = wibox.layout.flex.vertical,
-					spacing = dpi(20),
+					spacing = dpi(17.5),
 					nil,
 					require("ui.panels.notification-panel.notif-center")(s),
 					nil,
@@ -38,7 +38,6 @@ return function(s)
 			},
 			id = "notification_panel",
 			bg = beautiful.wibar_bg,
-			shape = helpers.ui.rrect(dpi(0)),
 			widget = wibox.container.background,
 		},
 	})

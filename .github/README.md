@@ -82,16 +82,14 @@ AwesomeWM Modules:
 Main Features:
 
 - **Eye-catching Colorscheme**
-- **MacOS like window decorations**
 - **Dashboard Panel**
 - **Info Center Panel**
 - **Notification Center Panel**
-- **Bottom Panel**
+- **Bottom Dock**
 - **Word Clock Lockscreen**
 - **Minimalist Exit Screen**
 - **Music Player**
 - **App Launcher**
-- **Github Activity Previews**
 - **Brightness / Volume OSDs**
 - **LayoutList PopUP**
 - **Battery Indicator**
@@ -134,7 +132,7 @@ paru -S awesome-git
 paru -Sy picom-git wezterm rofi acpi acpid acpi_call upower lxappearance-gtk3 \
 jq inotify-tools polkit-gnome xdotool xclip gpick ffmpeg blueman redshift \
 pipewire pipewire-alsa pipewire-pulse alsa-utils brightnessctl feh maim \
-mpv mpd mpc mpdris2 python-mutagen ncmpcpp playerctl --needed
+mpv mpd mpc mpdris2 python-mutagen ncmpcpp playerctl xss-lock --needed
 ```
 
 > Enable Services
@@ -142,8 +140,12 @@ mpv mpd mpc mpdris2 python-mutagen ncmpcpp playerctl --needed
 ```sh
 systemctl --user enable mpd.service
 systemctl --user start mpd.service
+xset dpms 0 0 [TIME IN SECONDS]
 ```
 
+
+- **NOTE**
+Dock only triggers when cursor is at the bottom center of screen and when an app is launched. 
 </details>
 
 <details>
@@ -153,14 +155,15 @@ systemctl --user start mpd.service
 > Clone this repository
 
 ```sh
-git clone --depth 1 --recurse-submodules https://github.com/rxyhn/yoru.git
-cd yoru && git submodule update --remote --merge
+git clone --recurse-submodules https://github.com/saxatb/yoru.git
+cd yoru
 ```
 
 > Copy config files
 
 ```sh
 cp -r config/* ~/.config/
+cp -r misc/home/* ~/*
 ```
 
 > Install a few fonts (mainly icon fonts) in order for text and icons to be rendered properly.

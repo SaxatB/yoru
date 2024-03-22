@@ -139,7 +139,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 				right = dpi(24),
 				widget = wibox.container.margin,
 			},
-			bg = beautiful.xbackground,
+			bg = beautiful.lighter_xbackground,
 			shape = gears.shape.rounded_rect,
 			widget = wibox.container.background,
 		},
@@ -174,10 +174,10 @@ local placement_placer = function()
 	local focused = awful.screen.focused()
 	local brightness_osd = focused.brightness_osd_overlay
 	awful.placement.next_to(brightness_osd, {
-		preferred_positions = "top",
+		preferred_positions = "bottom",
 		preferred_anchors = "middle",
 		geometry = focused.bottom_panel or s,
-		offset = { x = 0, y = dpi(-20) },
+		offset = { y = dpi(10) },
 	})
 end
 

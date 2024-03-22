@@ -14,7 +14,7 @@ local widgets = require("ui.widgets")
 
 naughty.persistence_enabled = true
 naughty.config.defaults.ontop = true
-naughty.config.defaults.timeout = 6
+naughty.config.defaults.timeout = 5
 naughty.config.defaults.title = "System Notification"
 naughty.config.defaults.position = "top_right"
 
