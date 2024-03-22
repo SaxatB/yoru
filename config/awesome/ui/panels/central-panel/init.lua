@@ -14,7 +14,7 @@ return function(s)
 	--- Header
 	local function header()
 		local dashboard_text = wibox.widget({
-			markup = helpers.ui.colorize_text("Dashboard -", "#666c79"),
+			markup = helpers.ui.colorize_text("Dashboard", "#666c79"),
 			font = beautiful.font_name .. "Black 14",
 			valign = "center",
 			widget = wibox.widget.textbox,
@@ -34,9 +34,6 @@ return function(s)
 			reset_search_icon()
 
 			local search_text = wibox.widget({
-				--- markup = helpers.ui.colorize_text("Search", beautiful.color8),
-				align = "center",
-				valign = "center",
 				font = beautiful.font,
 				widget = wibox.widget.textbox(),
 			})
@@ -58,7 +55,7 @@ return function(s)
 				forced_height = dpi(35),
 				forced_width = dpi(420),
 				shape = gears.shape.rounded_bar,
-				bg = beautiful.wibar_bg,
+				bg = beautiful.widget_bg,
 				widget = wibox.container.background(),
 			})
 
@@ -87,7 +84,6 @@ return function(s)
 					activate_prompt("web_search")
 				end)
 			))
-
 			return search
 		end
 
@@ -105,23 +101,6 @@ return function(s)
 		return widget
 	end
 
-	s.awesomewm = wibox.widget({
-		{
-        {
-            image = gears.color.recolor_image(icons.awesome_logo, beautiful.accent),
-            resize = true,
-            halign = "center",
-            valign = "center",
-            widget = wibox.widget.imagebox,
-        },
-        strategy = "exact",
-        height = dpi(40),
-        widget = wibox.container.constraint,
-	},
-	margins = dpi(10),
-	widget = wibox.container.margin,
-    })
-
 	--- Widgets
 	s.stats = require("ui.panels.central-panel.stats")
 	s.user_profile = require("ui.panels.central-panel.user-profile")
@@ -132,8 +111,8 @@ return function(s)
 	s.central_panel = awful.popup({
 		type = "dock",
 		screen = s,
-		minimum_height = dpi(700),
-		maximum_height = dpi(700),
+		minimum_height = dpi(650),
+		maximum_height = dpi(650),
 		minimum_width = dpi(700),
 		maximum_width = dpi(700),
 		bg = beautiful.transparent,
@@ -141,19 +120,19 @@ return function(s)
 		visible = false,
 		placement = function(w)
 			awful.placement.top(w, {
-				margins = { top = beautiful.wibar_height + dpi(5),bottom =  dpi(5), left = dpi(5), right = dpi(5) },
+				margins = { bottom = dpi(5), top = beautiful.wibar_height + dpi(5), left = dpi(5), right = dpi(5) },
 			})
 		end,
 		widget = {
 			{
 				{
-					header(),
-					margins = { top = dpi(10), bottom = dpi(10), right = dpi(20), left = dpi(20) },
+					margins	= dpi(0),
 					widget = wibox.container.margin,
 				},
 				{
 					{
 						{
+							header(),
 							nil,
 							{
 								{
@@ -165,14 +144,13 @@ return function(s)
 								{
 									s.stats,
 									s.music_player,
-									s.awesomewm,
 									layout = wibox.layout.fixed.vertical,
 								},
 								layout = wibox.layout.align.horizontal,
 							},
 							layout = wibox.layout.align.vertical,
 						},
-						margins = dpi(10),
+						margins = { top = dpi(0), left = dpi(10), right = dpi(10), bottom = dpi(10) },
 						widget = wibox.container.margin,
 					},
 					shape = helpers.ui.prrect(beautiful.border_radius * 2, true, true, false, false),

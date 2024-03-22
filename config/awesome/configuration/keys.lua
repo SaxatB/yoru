@@ -28,11 +28,20 @@ awful.keyboard.append_global_keybindings({
 		awful.spawn(apps.default.terminal)
 	end, { description = "open terminal", group = "app" }),
 
-	--- App launcher
+	awful.key({ mod }, "grave", function()
+		awful.spawn(apps.default.quaketerminal)
+	end, { description = "open terminal", group = "app" }),
+
+	-- Dashboard
 	awful.key({ mod }, "d", function()
+		awesome.emit_signal("central_panel::toggle", awful.screen.focused())
+	end, { description = "Dashboard", group = "hotkeys" }),
+
+	--- App launcher
+	awful.key({ mod }, "r", function()
 		awful.spawn.with_shell(apps.default.app_launcher)
 	end, { description = "open app launcher", group = "app" }),
-
+	
 	--- Code editor
 	awful.key({ mod, shift }, "e", function()
 		awful.spawn(apps.default.code_editor)
@@ -43,10 +52,23 @@ awful.keyboard.append_global_keybindings({
 		awful.spawn(apps.default.file_manager)
 	end, { description = "open file manager", group = "app" }),
 
-	--- Web browser
-	awful.key({ mod, shift }, "w", function()
+	--default-web-browser
+	awful.key({ mod }, "b", function()
 		awful.spawn(apps.default.web_browser)
 	end, { description = "open web browser", group = "app" }),
+
+	--- Web browser
+	awful.key({ mod, shift }, "w", function()
+		awful.spawn(apps.default.web_browser_2)
+	end, { description = "open web browser", group = "app" }),
+
+	awful.key({ mod }, "t", function()
+		awful.spawn(apps.default.messenger)
+	end, { description = "open telegram", group = "app" }),
+
+	awful.key({ mod, shift }, "d", function()
+		awful.spawn(apps.default.pdf_viewer)
+	end, { description = "open evince", group = "app" }),
 
 	--- WM
 	--- ~~
@@ -142,7 +164,7 @@ awful.keyboard.append_global_keybindings({
 
 	--- Hotkeys
 	--- ~~~~~~~
-	--- Music player
+	-- Music player
 	awful.key({ mod }, "grave", function()
 		awful.spawn.with_shell(apps.default.music_player)
 	end, { description = "open music client", group = "hotkeys" }),
@@ -161,17 +183,17 @@ awful.keyboard.append_global_keybindings({
 
 	--- Volume control
 	awful.key({}, "XF86AudioRaiseVolume", function()
-		awful.spawn("amixer sset Master 5%+", false)
+		awful.spawn("pamixer -i 5", false)
 		awesome.emit_signal("widget::volume")
 		awesome.emit_signal("module::volume_osd:show", true)
 	end, { description = "increase volume", group = "hotkeys" }),
 	awful.key({}, "XF86AudioLowerVolume", function()
-		awful.spawn("amixer sset Master 5%-", false)
+		awful.spawn("pamixer -d 5", false)
 		awesome.emit_signal("widget::volume")
 		awesome.emit_signal("module::volume_osd:show", true)
 	end, { description = "decrease volume", group = "hotkeys" }),
 	awful.key({}, "XF86AudioMute", function()
-		awful.spawn("amixer sset Master toggle", false)
+		awful.spawn("pamixer -t", false)
 	end, { description = "mute volume", group = "hotkeys" }),
 
 	--- Music
@@ -259,9 +281,9 @@ client.connect_signal("request::default_keybindings", function()
 		end),
 
 		--- Toggle titlebars (for focused client only)
-		awful.key({ mod }, "t", function(c)
-			decorations.cycle(c)
-		end, { description = "toggle titlebar", group = "client" }),
+		-- awful.key({ mod }, "t", function(c)
+		-- 	decorations.cycle(c)
+		-- end, { description = "toggle titlebar", group = "client" }),
 		--- Toggle titlebars (for all visible clients in selected tag)
 		awful.key({ mod, shift }, "t", function(c)
 			local clients = awful.screen.focused().clients
@@ -319,7 +341,7 @@ client.connect_signal("request::default_keybindings", function()
 		end),
 
 		--- Close window
-		awful.key({ mod }, "q", function()
+		awful.key({ mod, shift }, "c", function()
 			client.focus:kill()
 		end),
 

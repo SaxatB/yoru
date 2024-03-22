@@ -1,7 +1,7 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local upower_daemon = require("signal.battery")
+require("signal.battery")
 local gears = require("gears")
 local apps = require("configuration.apps")
 local dpi = require("beautiful").xresources.apply_dpi
@@ -12,13 +12,13 @@ local wbutton = require("ui.widgets.button")
 --- ~~~~~~~~~~~~~~
 
 return function()
-	local happy_color = beautiful.color2
-	local sad_color = beautiful.color1
-	local ok_color = beautiful.color3
-	local charging_color = beautiful.color6
+	local happy_color = beautiful.xcolor2
+	local sad_color = beautiful.xcolor1
+	local ok_color = beautiful.xcolor3
+	local charging_color = beautiful.xcolor6
 
 	local charging_icon = wibox.widget({
-		markup = helpers.ui.colorize_text("", beautiful.white),
+		markup = helpers.ui.colorize_text("", beautiful.xforeground),
 		font = beautiful.icon_font .. "Round 14",
 		align = "center",
 		valign = "center",
@@ -33,9 +33,9 @@ return function()
 		paddings = dpi(2),
 		bar_shape = helpers.ui.rrect(2),
 		shape = helpers.ui.rrect(5),
-		color = beautiful.white,
+		color = beautiful.xforeground,
 		background_color = beautiful.transparent,
-		border_color = beautiful.white,
+		border_color = beautiful.xforeground,
 		widget = wibox.widget.progressbar,
 	})
 
@@ -43,7 +43,7 @@ return function()
 		{
 			wibox.widget.textbox,
 			widget = wibox.container.background,
-			bg = beautiful.white,
+			bg = beautiful.xforeground,
 			forced_width = dpi(8.2),
 			forced_height = dpi(8.2),
 			shape = function(cr, width, height)
@@ -96,12 +96,7 @@ return function()
 	})
 
 	local last_value = 100
-
-	upower_daemon:connect_signal("no_devices", function (_)
-		widget.visible = false
-	end)
-
-	upower_daemon:connect_signal("update", function (self, value, state)
+	awesome.connect_signal("signal::battery", function(value, state)
 		battery_bar.value = value
 		last_value = value
 

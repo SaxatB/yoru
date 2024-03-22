@@ -14,7 +14,7 @@ return wibox.widget({
 				brightness,
 				volume,
 				mic,
-				spacing = dpi(12),
+				spacing = dpi(4),
 				layout = wibox.layout.fixed.vertical,
 			},
 			margins = { top = dpi(12), bottom = dpi(12), left = dpi(18), right = dpi(12) },

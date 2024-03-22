@@ -9,43 +9,43 @@ local widgets = require("ui.widgets")
 local wbutton = require("ui.widgets.button")
 local animation = require("modules.animation")
 
---- Modern Top Panel
+--- Modern Bottom Panel
 --- ~~~~~~~~~~~~~~~~~~~
 
 return function(s)
 	--- Widgets
 	--- ~~~~~~~~~~
-	s.clock = require("ui.panels.top-panel.clock")(s)
-	s.battery = require("ui.panels.top-panel.battery")()
-	s.network = require("ui.panels.top-panel.network")()
+	s.clock = require("ui.panels.bottom-panel.clock")(s)
+	s.battery = require("ui.panels.bottom-panel.battery")()
+	s.network = require("ui.panels.bottom-panel.network")()
 
 	--- Animated tag list
 	--- ~~~~~~~~~~~~~~~~~
 
 	--- Taglist buttons
-	local modkey = "Mod4"
-	local taglist_buttons = gears.table.join(
-		awful.button({}, 1, function(t)
-			t:view_only()
-		end),
-		awful.button({ modkey }, 1, function(t)
-			if client.focus then
-				client.focus:move_to_tag(t)
-			end
-		end),
-		awful.button({}, 3, awful.tag.viewtoggle),
-		awful.button({ modkey }, 3, function(t)
-			if client.focus then
-				client.focus:toggle_tag(t)
-			end
-		end),
-		awful.button({}, 4, function(t)
-			awful.tag.viewnext(t.screen)
-		end),
-		awful.button({}, 5, function(t)
-			awful.tag.viewprev(t.screen)
-		end)
-	)
+--	local modkey = "Mod4"
+--	local taglist_buttons = gears.table.join(
+--		awful.button({}, 1, function(t)
+--			t:view_only()
+--		end),
+--		awful.button({ modkey }, 1, function(t)
+--			if client.focus then
+--				client.focus:move_to_tag(t)
+--			end
+--		end),
+--		awful.button({}, 3, awful.tag.viewtoggle),
+--		awful.button({ modkey }, 3, function(t)
+--			if client.focus then
+--				client.focus:toggle_tag(t)
+--			end
+--		end),
+--		awful.button({}, 4, function(t)
+--			awful.tag.viewnext(t.screen)
+--		end),
+--		awful.button({}, 5, function(t)
+--			awful.tag.viewprev(t.screen)
+--		end)
+--	)
 
 	local function tag_list(s)
 		local taglist = awful.widget.taglist({
@@ -81,7 +81,7 @@ return function(s)
 						self.widget.children[1].bg = beautiful.accent
 						self.indicator_animation:set(dpi(32))
 					elseif #c3:clients() == 0 then
-						self.widget.children[1].bg = beautiful.color8
+						self.widget.children[1].bg = beautiful.xcolor8
 						self.indicator_animation:set(dpi(8))
 					else
 						self.widget.children[1].bg = beautiful.accent
@@ -105,7 +105,7 @@ return function(s)
 						self.widget.children[1].bg = beautiful.accent
 						self.indicator_animation:set(dpi(32))
 					elseif #c3:clients() == 0 then
-						self.widget.children[1].bg = beautiful.color8
+						self.widget.children[1].bg = beautiful.xcolor8
 						self.indicator_animation:set(dpi(8))
 					else
 						self.widget.children[1].bg = beautiful.accent
@@ -168,6 +168,7 @@ return function(s)
 			size = 18,
 			text = "",
 			on_turn_on = function(self)
+				mysystray:set_screen(awful.screen.focused())
 				system_tray_animation:set(400)
 				self:set_text("")
 			end,
@@ -229,7 +230,9 @@ return function(s)
 			end)
 		)
 
-		s.mylayoutbox = awful.widget.layoutbox()
+		s.mylayoutbox = awful.widget.layoutbox({
+		screen = s
+		})
 		s.mylayoutbox:buttons(layoutbox_buttons)
 
 		local widget = wbutton.elevated.state({
@@ -240,9 +243,9 @@ return function(s)
 		return widget
 	end
 
-	--- Create the top_panel
+	--- Create the bottom_panel
 	--- ~~~~~~~~~~~~~~~~~~~~~~~
-	s.top_panel = awful.popup({
+	s.bottom_panel = awful.popup({
 		screen = s,
 		type = "dock",
 		maximum_height = beautiful.wibar_height,
@@ -277,31 +280,31 @@ return function(s)
 		},
 	})
 
-	s.top_panel:struts({
-		top = s.top_panel.maximum_height,
+	s.bottom_panel:struts({
+		top = s.bottom_panel.maximum_height,
 	})
 
-	--- Remove top_panel on full screen
-	local function remove_top_panel(c)
+	--- Remove bottom_panel on full screen
+	local function remove_bottom_panel(c)
 		if c.fullscreen or c.maximized then
-			c.screen.top_panel.visible = false
+			c.screen.bottom_panel.visible = false
 		else
-			c.screen.top_panel.visible = true
+			c.screen.bottom_panel.visible = true
 		end
 	end
 
-	--- Remove top_panel on full screen
-	local function add_top_panel(c)
+	--- Remove bottom_panel on full screen
+	local function add_bottom_panel(c)
 		if c.fullscreen or c.maximized then
-			c.screen.top_panel.visible = true
+			c.screen.bottom_panel.visible = true
 		end
 	end
 
 	--- Hide bar when a splash widget is visible
 	awesome.connect_signal("widgets::splash::visibility", function(vis)
-		screen.primary.top_panel.visible = not vis
+		screen.primary.bottom_panel.visible = not vis
 	end)
 
-	client.connect_signal("property::fullscreen", remove_top_panel)
-	client.connect_signal("request::unmanage", add_top_panel)
+	client.connect_signal("property::fullscreen", remove_bottom_panel)
+	client.connect_signal("request::unmanage", add_bottom_panel)
 end

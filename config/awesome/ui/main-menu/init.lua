@@ -29,7 +29,7 @@ local function awesome_menu()
 			icon = { icon = "", font = "Material Icons Round " },
 			text = "Edit Config",
 			on_press = function()
-				awful.spawn(apps.default.text_editor .. " " .. awesome.conffile)
+				awful.spawn(apps.default.code_editor .. " " .. awesome.conffile)
 			end,
 		}),
 		menu.button({
@@ -51,6 +51,12 @@ end
 
 local function widget()
 	return menu({
+		menu.sub_menu_button({
+			icon = { icon = "", font = "Material Icons Round " },
+			text = "AwesomeWM",
+			sub_menu = awesome_menu(),
+		}),
+		menu.separator(),
 		menu.button({
 			icon = { icon = "", font = "Material Icons Round " },
 			text = "Applications",
@@ -95,38 +101,11 @@ local function widget()
 		}),
 		menu.separator(),
 		menu.button({
-			icon = { icon = "", font = "Material Icons Round " },
-			text = "Dashboard",
-			on_press = function()
-				awesome.emit_signal("central_panel::toggle", focused)
-			end,
-		}),
-		menu.button({
-			icon = { icon = "", font = "Material Icons Round " },
-			text = "Info Center",
-			on_press = function()
-				awesome.emit_signal("info_panel::toggle", focused)
-			end,
-		}),
-		menu.button({
-			icon = { icon = "", font = "Material Icons Round " },
-			text = "Notification Center",
-			on_press = function()
-				awesome.emit_signal("notification_panel::toggle", focused)
-			end,
-		}),
-		menu.separator(),
-		menu.button({
 			icon = { icon = "", font = "Material Icons Round " },
 			text = "Exit",
 			on_press = function()
 				awesome.emit_signal("module::exit_screen:show")
 			end,
-		}),
-		menu.sub_menu_button({
-			icon = { icon = "", font = "Material Icons Round " },
-			text = "AwesomeWM",
-			sub_menu = awesome_menu(),
 		}),
 	})
 end

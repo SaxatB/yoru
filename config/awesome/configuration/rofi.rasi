@@ -7,7 +7,7 @@ configuration {
     disable-history:                false;
 	sidebar-mode: 					false;
 	click-to-exit: 					true;
-    location:                       6;
+    location:                       2;
 }
 
 * {
@@ -22,9 +22,10 @@ window {
     background-color:               @BG;
     text-color:                     @FG;
     border-radius:                  8px;
-    width:                          700px;
+    width:                          65%;
+    height:                         70%;
     x-offset:                       0;
-    y-offset:                       -4.3%;
+    y-offset:                       6%;
 }
 
 prompt {
@@ -126,7 +127,7 @@ element alternate.active {
 }
 
 element selected {
-    background-color:               @BGA;
+    background-color:               #242424;
     text-color:                     @FG;
     border-radius:                  8px;
 }
@@ -137,6 +138,6 @@ element selected.urgent {
 }
 
 element selected.active {
-    background-color:               @BGA;
+    background-color:               #242424;
     color:                          @FG;
 }

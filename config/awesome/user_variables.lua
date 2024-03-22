@@ -9,10 +9,5 @@ return {
 				"", --- lon
 			},
 		},
-
-		--- Github activity
-		github = {
-			username = "rxyhn",
-		},
 	},
 }

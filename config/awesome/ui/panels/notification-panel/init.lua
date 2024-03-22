@@ -12,49 +12,33 @@ return function(s)
 	s.notification_panel = awful.popup({
 		type = "dock",
 		screen = s,
-		minimum_height = s.geometry.height - (beautiful.wibar_height + dpi(10)),
-		maximum_height = s.geometry.height - (beautiful.wibar_height + dpi(10)),
+		minimum_height = s.geometry.height - (beautiful.wibar_height),
+		maximum_height = s.geometry.height - (beautiful.wibar_height),
 		minimum_width = dpi(350),
 		maximum_width = dpi(350),
 		bg = beautiful.transparent,
 		ontop = true,
 		visible = false,
 		placement = function(w)
-			awful.placement.top_right(w)
-			awful.placement.maximize_vertically(
-				w,
-				{ honor_workarea = true, margins = { top = beautiful.useless_gap * 2 } }
-			)
+			awful.placement.top_right(w, {
+				margins = { top = beautiful.wibar_height },
+			})
 		end,
 		widget = {
 			{
-				{ ----------- TOP GROUP -----------
-					helpers.ui.vertical_pad(dpi(30)),
-					{
-						require("ui.panels.notification-panel.notif-center")(s),
-						margins = dpi(20),
-						widget = wibox.container.margin,
-					},
-					layout = wibox.layout.fixed.vertical,
+				{
+					layout = wibox.layout.flex.vertical,
+					spacing = dpi(20),
+					nil,
+					require("ui.panels.notification-panel.notif-center")(s),
+					nil,
 				},
-				{ ----------- MIDDLE GROUP -----------
-					{
-						{
-							require("ui.panels.notification-panel.github-activity"),
-							margins = dpi(20),
-							widget = wibox.container.margin,
-						},
-						helpers.ui.vertical_pad(dpi(30)),
-						layout = wibox.layout.fixed.vertical,
-					},
-					shape = helpers.ui.prrect(beautiful.border_radius * 2, true, false, false, false),
-					bg = beautiful.widget_bg,
-					widget = wibox.container.background,
-				},
-				layout = wibox.layout.flex.vertical,
+				margins = dpi(15),
+				widget = wibox.container.margin,
 			},
-			shape = helpers.ui.prrect(beautiful.border_radius * 2, true, false, false, false),
+			id = "notification_panel",
 			bg = beautiful.wibar_bg,
+			shape = helpers.ui.rrect(dpi(0)),
 			widget = wibox.container.background,
 		},
 	})
