@@ -344,22 +344,19 @@ local function init(args)
 		end,
 	})
 	local autohidetimer = gears.timer({
-		timeout = 2,
+		timeout = 0.5,
 		single_shot = true,
 		callback = function()
 			autohideanim.target = 0
 		end,
 	})
 
-	dock_box:connect_signal("mouse::leave", function()
-        	autohidetimer:again()
-	end)
 	dock_box:connect_signal("mouse::enter", function()
 		autohideanim.target = 1
 		autohidetimer:stop()
 	end)
 
-local updatePopupOpacity = function()
+local updatedockOpacity = function()
     local client_count = 0
     for _, c in ipairs(client.get()) do
         if awful.widget.tasklist.filter.currenttags(c, s) then
@@ -368,22 +365,37 @@ local updatePopupOpacity = function()
     end
 
     if client_count == 0 then
+	    -- Disconnects signal when no apps launched
 	    autohideanim.target = 1
+	    autohidetimer:stop()
     else
-        autohideanim.target = 0
+	    autohideanim.target = 0
     end
 end
 
+dock_box:connect_signal("mouse::leave", function()
+    local client_count = 0
+    for _, c in ipairs(client.get()) do
+        if awful.widget.tasklist.filter.currenttags(c, s) then
+            client_count = client_count + 1
+        end
+    end
+    if client_count > 0 then
+        -- Keep the dock visible if there are clients
+        autohideanim.target = 0
+    end
+end)
+
 -- Connect signals to update the dock visibility
-tag.connect_signal("property::selected", updatePopupOpacity)
-tag.connect_signal("property::activated", updatePopupOpacity)
-client.connect_signal("list", updatePopupOpacity)
-client.connect_signal("property::sticky", updatePopupOpacity)
-client.connect_signal("property::skip_taskbar", updatePopupOpacity)
-client.connect_signal("property::hidden", updatePopupOpacity)
-client.connect_signal("tagged", updatePopupOpacity)
-client.connect_signal("untagged", updatePopupOpacity)
-updatePopupOpacity()
+tag.connect_signal("property::selected", updatedockOpacity)
+tag.connect_signal("property::activated", updatedockOpacity)
+client.connect_signal("list", updatedockOpacity)
+client.connect_signal("property::sticky", updatedockOpacity)
+client.connect_signal("property::skip_taskbar", updatedockOpacity)
+client.connect_signal("property::hidden", updatedockOpacity)
+client.connect_signal("tagged", updatedockOpacity)
+client.connect_signal("untagged", updatedockOpacity)
+updatedockOpacity()
 
 	return dock_box
 end
