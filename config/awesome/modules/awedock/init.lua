@@ -350,13 +350,41 @@ local function init(args)
 			autohideanim.target = 0
 		end,
 	})
+
 	dock_box:connect_signal("mouse::leave", function()
-		autohidetimer:again()
+        	autohidetimer:again()
 	end)
 	dock_box:connect_signal("mouse::enter", function()
 		autohideanim.target = 1
 		autohidetimer:stop()
 	end)
+
+local updatePopupOpacity = function()
+    local client_count = 0
+    for _, c in ipairs(client.get()) do
+        if awful.widget.tasklist.filter.currenttags(c, s) then
+            client_count = client_count + 1
+        end
+    end
+
+    if client_count == 0 then
+	    autohideanim.target = 1
+    else
+        autohideanim.target = 0
+    end
+end
+
+-- Connect signals to update the dock visibility
+tag.connect_signal("property::selected", updatePopupOpacity)
+tag.connect_signal("property::activated", updatePopupOpacity)
+client.connect_signal("list", updatePopupOpacity)
+client.connect_signal("property::sticky", updatePopupOpacity)
+client.connect_signal("property::skip_taskbar", updatePopupOpacity)
+client.connect_signal("property::hidden", updatePopupOpacity)
+client.connect_signal("tagged", updatePopupOpacity)
+client.connect_signal("untagged", updatePopupOpacity)
+updatePopupOpacity()
+
 	return dock_box
 end
 
