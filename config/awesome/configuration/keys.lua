@@ -314,22 +314,6 @@ client.connect_signal("request::default_keybindings", function()
 			c:raise()
 		end, { description = "(un)maximize horizontally", group = "client" }),
 
-		--- Minimize windows
-		awful.key({ mod }, "n", function(c)
-			-- The client currently has the input focus, so it cannot be
-			-- minimized, since minimized clients can't have the focus.
-			c.minimized = true
-		end, { description = "minimize", group = "client" }),
-
-		--- Un-minimize windows
-		awful.key({ mod, ctrl }, "n", function()
-			local c = awful.client.restore()
-			-- Focus restored client
-			if c then
-				c:activate({ raise = true, context = "key.unminimize" })
-			end
-		end, { description = "restore minimized", group = "client" }),
-
 		--- Keep on top
 		awful.key({ mod }, "p", function(c)
 			c.ontop = not c.ontop

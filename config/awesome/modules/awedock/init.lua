@@ -174,8 +174,6 @@ local function init(args)
 								context = "through_dock",
 								switch_to_tag = true,
 							})
-						else
-							c.minimized = true
 						end
 					end,
 				}))
@@ -215,10 +213,7 @@ local function init(args)
 				if c.active then
 					status_w.target = h / 2
 					status_c.target = 1
-				elseif c.minimized then
-					status_w.target = h / 10
-					status_c.target = 0
-				else
+				else 
 					status_w.target = h / 3
 					status_c.target = 0
 				end
@@ -344,7 +339,7 @@ local function init(args)
 		end,
 	})
 	local autohidetimer = gears.timer({
-		timeout = 0.5,
+		timeout = 2,
 		single_shot = true,
 		callback = function()
 			autohideanim.target = 0
@@ -373,6 +368,7 @@ local updatedockOpacity = function()
     end
 end
 
+
 dock_box:connect_signal("mouse::leave", function()
     local client_count = 0
     for _, c in ipairs(client.get()) do
@@ -383,6 +379,7 @@ dock_box:connect_signal("mouse::leave", function()
     if client_count > 0 then
         -- Keep the dock visible if there are clients
         autohideanim.target = 0
+	autohidetimer:again()
     end
 end)
 

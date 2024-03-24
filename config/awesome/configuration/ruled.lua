@@ -129,3 +129,8 @@ ruled.client.connect_signal("request::rules", function()
 		end,
 	})
 end)
+
+--- Disable Minimizing Clients
+client.connect_signal("property::minimized", function(c)
+	c.minimized = false
+end)
